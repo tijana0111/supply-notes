@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+
+{% block styles %}
+{{super()}}
+<style>
+    #background {
+        background-image: url({{ url_for('static', filename='background.jpg') }});
+        background-repeat: no-repeat;
+    }
+    #white_background {
+        background-color: white;
+    }
+    #m {
+        margin: 10px 10px 10px 10px;
+    }
+</style>
+{% endblock %}
+
+
+{% block app_content %}
+    <div id="background">
+        <div id="m">
+
+            <div style="height: 10px;"></div>
+            <h1>Register</h1>
+            <div style="height: 10px;"></div>
+
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.home_name.label }}<br>
+                    {{ form.home_name(size=32) }}<br>
+                    {% for error in form.home_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password2.label }}<br>
+                    {{ form.password2(size=32) }}<br>
+                    {% for error in form.password2.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+
+        <div style="height: 20px;"></div>
+        </div>
+    </div>
+{% endblock %}

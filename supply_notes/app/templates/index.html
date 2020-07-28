@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{super()}}
+<style>
+    #background {
+        background-image: url({{ url_for('static', filename='background.jpg') }});
+        background-repeat: no-repeat;
+    }
+    #background1 {
+        background-image: url({{ url_for('static', filename='background.jpg') }});
+        background-repeat: no-repeat;
+    }
+    #white_background {
+        background-color: white;
+    }
+    #m {
+        margin: 10px 10px 10px 10px;
+    }
+    #m1 {
+        margin: 10px 10px 10px 10px;
+    }
+</style>
+{% endblock %}
+
+{% block app_content %}
+
+    <h1>Hello, {{ current_user.username }}!</h1>
+    {% if current_user.home_id %}
+
+        <table class="table table-borderless">
+        <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Item</th>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Note</th>
+              <th scope="col">By:</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <th><span class="glyphicon glyphicon-asterisk"></span></th>
+              <th >{{ item.item_name }}</th>
+              <td>{{ item.type }}</td>
+              <td>{{ item.amount }}</td>
+              <td>{{ item.note }}</td>
+              <td>{{ item.author_item.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+        <div id="background1">
+        <div id="m1">
+
+            <div style="height: 10px;"></div>
+            <h3>Add new item:</h3>
+
+            <div style="height: 10px;"></div>
+            <form action="" method="post">
+                {{ form_item.hidden_tag() }}
+                <div class="row">
+                <div class="col-xs-2">
+                    {{ form_item.item_name.label }}<br>
+                    {{ form_item.item_name(cols=32) }}<br>
+                    {% for error in form_item.item_name.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="col-xs-3">
+                    {{ form_item.type.label }}<br>
+                    {{ form_item.type(cols=32) }}<br>
+                    {% for error in form_item.type.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                    {{ form_item.amount.label }}<br>
+                    {{ form_item.amount(cols=32) }}<br>
+                    {% for error in form_item.amount.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </div>
+
+                    <div class="col-xs-3">
+                    {{ form_item.note.label }}<br>
+                    {{ form_item.note(cols=32) }}<br>
+                    {% for error in form_item.note.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div style="height: 30px;"></div>
+                <div>{{ form_item.submit() }}</div>
+            </form>
+
+            <div style="height: 30px;"></div>
+        </div>
+        </div>
+    {% else %}
+    <div id="background">
+        <div id="m">
+            <div style="height: 10px;"></div>
+            Enter your home name and password:
+
+            <div style="height: 10px;"></div>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.home_name.label }}<br>
+                    {{ form.home_name(size=32) }}<br>
+                    {% for error in form.home_name.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}<br>
+                    {% for error in form.password.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+            <div style="height: 30px;"></div>
+
+            <div class="col-sm-2" id="white_background">
+                <p>
+                    Want to create new home? <a href="{{ url_for('register_home') }}">Click here!</a>
+                </p>
+
+                <div style="height: 30px;"></div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
